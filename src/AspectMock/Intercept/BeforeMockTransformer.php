@@ -53,6 +53,10 @@ class BeforeMockTransformer extends WeavingTransformer
                     if (preg_match('/(\@return\s+[\\\]?Generator)/', $method->getDocComment())) {
                         $beforeDefinition = str_replace('return', 'yield', $beforeDefinition);
                     }
+                    if ($method->getReturnType() == 'void') {
+                        $beforeDefinition = str_replace('return $__am_res;', 'return;', $beforeDefinition);
+                    }
+
                     $reflectedParams = $method->getParameters();
 
                     $params = [];
